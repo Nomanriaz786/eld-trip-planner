@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "ELD Trip Planner API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://127.0.0.1:8000" }],
+  "item": [
+    {
+      "name": "Plan trip",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/trip",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"current_location\": \"Chicago, IL\",\n  \"pickup_location\": \"Indianapolis, IN\",\n  \"dropoff_location\": \"Los Angeles, CA\",\n  \"current_cycle_used\": 20\n}"
+        }
+      }
+    },
+    {
+      "name": "Plan trip, 34-hour restart needed",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/trip",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"current_location\": \"Dallas, TX\",\n  \"pickup_location\": \"Houston, TX\",\n  \"dropoff_location\": \"Seattle, WA\",\n  \"current_cycle_used\": 65\n}"
+        }
+      }
+    },
+    {
+      "name": "Plan trip, unknown location",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/trip",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"current_location\": \"Nowhereville, ZZ\",\n  \"pickup_location\": \"Dallas, TX\",\n  \"dropoff_location\": \"Austin, TX\",\n  \"current_cycle_used\": 10\n}"
+        }
+      }
+    },
+    {
+      "name": "Search places",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/places?q=dal",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "places"],
+          "query": [{ "key": "q", "value": "dal" }]
+        }
+      }
+    }
+  ]
+}
