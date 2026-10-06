@@ -73,6 +73,7 @@ export default function App() {
               Print logs
             </button>
           </div>
+          <p className="logs-hint">Swipe a sheet sideways to see the whole 24 hours.</p>
           {plan.logs.map((log, i) => (
             <div className="log-frame" key={log.date}>
               <LogSheet log={log} index={i} total={plan.logs.length} />

@@ -189,7 +189,8 @@ html {
 }
 
 .button-link {
-  padding: 0;
+  min-height: 44px;
+  padding: 0 4px;
   color: var(--interstate);
   background: none;
   border: 0;
@@ -429,8 +430,16 @@ html {
   padding-top: 16px;
 }
 
+.logs-hint {
+  display: none;
+  margin-top: -8px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
 .log-frame {
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   border: 1px solid var(--rule);
   border-radius: 4px;
   background: #fff;
@@ -544,6 +553,7 @@ html {
   .workspace {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: 20px;
   }
 
@@ -572,9 +582,58 @@ html {
   }
 }
 
+@media (max-width: 807px) {
+  .logs-hint {
+    display: block;
+  }
+}
+
+@media (min-width: 561px) and (max-width: 900px) {
+  .trip-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 14px 20px;
+  }
+
+  .form-actions {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 560px) {
   .app {
     padding: 20px 16px 48px;
+  }
+
+  .masthead {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  .trip-form {
+    padding: 16px;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+  }
+
+  .button-primary {
+    flex: 1 1 100%;
+  }
+
+  .form-actions .button-link {
+    margin: 0 auto;
+  }
+
+  .summary dd {
+    font-size: 1.3rem;
+  }
+
+  .trip-map {
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
 
   .masthead h1 {
@@ -582,10 +641,15 @@ html {
   }
 
   .map-legend {
-    left: 8px;
-    bottom: 8px;
-    padding: 8px 10px;
-    font-size: 0.8rem;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
   }
 }
 
@@ -608,7 +672,8 @@ html {
 
   .masthead,
   .workspace,
-  .logs-header {
+  .logs-header,
+  .logs-hint {
     display: none;
   }
 

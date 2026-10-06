@@ -4,18 +4,27 @@ import { CircleMarker, MapContainer, Polyline, TileLayer, Tooltip, useMap } from
 import { STOP_COLORS, STOP_LABELS, clockTime, duration, shortDate } from "../format";
 
 const USA_CENTER = [39.5, -98.35];
+const IS_TOUCH = window.matchMedia("(pointer: coarse)").matches;
 
+/** Keeps the whole route in view, including when the map is resized (rotation, layout change). */
 function FitToRoute({ route }) {
   const map = useMap();
   useEffect(() => {
-    if (route.length) map.fitBounds(route, { padding: [32, 32] });
+    if (!route.length) return undefined;
+    const fit = () => {
+      map.invalidateSize();
+      map.fitBounds(route, { padding: [32, 32] });
+    };
+    const observer = new ResizeObserver(fit);
+    observer.observe(map.getContainer());
+    return () => observer.disconnect();
   }, [map, route]);
   return null;
 }
 
 export default function TripMap({ plan }) {
   return (
-    <MapContainer center={USA_CENTER} zoom={4} className="trip-map" scrollWheelZoom={false}>
+    <MapContainer center={USA_CENTER} zoom={4} className="trip-map" zoomSnap={0.25} scrollWheelZoom={false} dragging={!IS_TOUCH}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
