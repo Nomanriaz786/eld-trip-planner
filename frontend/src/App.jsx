@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { planTrip } from "./api";
 import LogSheet from "./components/LogSheet";
+import MapLegend from "./components/MapLegend";
 import StopList from "./components/StopList";
 import TripForm from "./components/TripForm";
 import TripMap from "./components/TripMap";
@@ -42,15 +43,25 @@ export default function App() {
           {plan && (
             <>
               <TripSummary summary={plan.summary} logCount={plan.logs.length} />
-              <h2 className="section-title">Stops</h2>
-              <StopList stops={plan.stops} />
+              <div className="stops">
+                <h2 className="section-title">Stops</h2>
+                <StopList stops={plan.stops} />
+              </div>
             </>
           )}
         </section>
 
-        <section className="map-area" aria-label="Route map">
+        <section className="map-area" aria-label="Route map" aria-busy={loading}>
           <TripMap plan={plan} />
-          {!plan && <p className="map-empty">Enter a trip to see the route, rest stops and fuel stops.</p>}
+          {plan && <MapLegend stops={plan.stops} />}
+          {loading ? (
+            <p className="map-status" role="status">
+              <span className="spinner" aria-hidden="true" />
+              Planning the route and required stops
+            </p>
+          ) : (
+            !plan && <p className="map-status">Enter a trip to see the route, rest stops and fuel stops.</p>
+          )}
         </section>
       </main>
 
